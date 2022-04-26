@@ -1,4 +1,5 @@
 #include "../util/types.h"
+#include <optional>
 
 namespace NHttpServer {
     struct TWorkerOpts {

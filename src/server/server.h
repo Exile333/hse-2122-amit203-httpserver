@@ -1,6 +1,8 @@
 #include <csignal>
 #include <vector>
 #include <string>
+#include <thread>
+#include <../thread_pool/thread_pool.h>
 
 namespace NHttpServer {
     struct TServerParams {
@@ -22,8 +24,15 @@ namespace NHttpServer {
     template <typename TWorker>
     class THttpServer {
     public:
-        THttpServer(); // Create with some default params.
-        THttpServer(const TServerParams& params);
+        // Create with some default params.
+        THttpServer() 
+            : Threads(std::thread::hardware_concurrency()) {
+        }
+        
+        THttpServer(const TServerParams& params) 
+            : Threads(std::thread::hardware_concurrency())
+            , Params{params} {
+        }
         THttpServer(const THttpServer&) = delete;
         THttpServer(const THttpServer&&) = delete;
 
@@ -36,7 +45,8 @@ namespace NHttpServer {
 
     private:
         EServerState State = SS_NOT_RUNNING;
-        std::vector<TWorker> WorkPool;
+        // std::vector<TWorker> WorkPool;
+        ThreadPool Threads;
         TServerParams Params;
     };
 } // namespace NHttpServer
