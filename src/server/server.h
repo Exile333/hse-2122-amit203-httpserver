@@ -11,7 +11,7 @@ namespace NHttpServer {
         std::string MinProtoVersion;
     };
 
-    EServerState {
+    enum EServerState {
         SS_NOT_RUNNING = 0,
         SS_RUNNING,
         SS_TERMINATING,
